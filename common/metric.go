@@ -2,6 +2,7 @@ package common
 
 import (
 	"bytes"
+	"errors"
 	"strconv"
 )
 
@@ -11,13 +12,33 @@ const (
 )
 
 type Metric struct {
+	name       string
 	attributes map[string]string
-	value      float64
+
+	buffer []byte
 }
 
-func (metric *Metric) PromQL() []byte {
+func NewMetric(name string) *Metric {
+	metric := new(Metric)
+
+	metric.name = name
+	metric.attributes = make(map[string]string)
+
+	return metric
+}
+
+func (metric *Metric) AddAttribute(key string, value string) *Metric {
+	metric.attributes[key] = value
+
+	return metric
+}
+
+func (metric *Metric) Build() (*Metric, error) {
+	if metric.name == "" {
+		return metric, errors.New("metric name is empty")
+	}
+
 	buffer := &bytes.Buffer{}
-	buffer.Grow(256)
 
 	if len(metric.attributes) > 0 {
 		buffer.WriteByte('{')
@@ -36,14 +57,22 @@ func (metric *Metric) PromQL() []byte {
 			}
 		}
 
-		buffer.WriteByte('}')
+		buffer.WriteString("} ")
 	}
 
-	buffer.WriteString(strconv.FormatFloat(metric.value, 'f', 3, 32))
+	metric.buffer = buffer.Bytes()
 
-	return buffer.Bytes()
+	return metric, nil
 }
 
-type MetricCollector interface {
+func (metric *Metric) WritePromQL(buffer *bytes.Buffer, value float64) {
+	buffer.Write(metric.buffer)
+
+	buffer.WriteString(strconv.FormatFloat(value, 'f', 3, 32))
+}
+
+type MetricAgent interface {
 	WriteMetrics(buffer *bytes.Buffer) error
+	NeedDaemon() bool
+	RunDaemon()
 }

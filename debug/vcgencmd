@@ -1,0 +1,16 @@
+#!/bin/bash
+
+case $1 in
+  measure_temp)
+    echo "temp=41.0'C"
+    ;;
+
+  measure_volts)
+    echo "volt=0.8613V"
+    ;;
+
+  *)
+    echo "Command Error!!"
+    ;;
+
+esac

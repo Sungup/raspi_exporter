@@ -9,7 +9,7 @@ import (
 type MetricHandler struct {
 	http.Handler
 
-	thermal *common.MetricCollector
+	thermal *common.MetricAgent
 }
 
 func newMetricHandler(opts *common.RaspiExpOpts) *MetricHandler {

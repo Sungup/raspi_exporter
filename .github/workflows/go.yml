@@ -4,7 +4,6 @@ env:
   REPO_NAME: github.com/Sungup/raspi_exporter
   REPO_NAME_TEST: ${{ github.repository }}
   TEST_WORKSPACE: ${{ github.workspace }}
-  TEST_RUNNER_TEMP: ${{ runner.temp }}
 jobs:
   build:
     name: Build
@@ -21,6 +20,8 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Check environvalues
+      env:
+        TEST_RUNNER_TEMP: ${{ runner.temp }}
       run: |
         echo ${REPO_NAME}
         echo ${HOME}

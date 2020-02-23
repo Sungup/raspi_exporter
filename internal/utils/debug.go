@@ -9,7 +9,7 @@ import (
 func DebugDir() string {
 	_, filename, _, _ := runtime.Caller(0)
 
-	return path.Join(path.Dir(path.Dir(filename)), "test")
+	return path.Join(path.Dir(path.Dir(path.Dir(filename))), "test")
 }
 
 func UpdateDebugPrerequisite(opts *common.RaspiExpOpts) {

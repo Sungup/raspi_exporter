@@ -2,7 +2,7 @@
 
 case $1 in
   measure_temp)
-    echo "temp=41.0'C"
+    echo "temp=41.9'C"
     ;;
 
   measure_volts)

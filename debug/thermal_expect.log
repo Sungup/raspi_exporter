@@ -1,0 +1,2 @@
+raspi_thermal{device="cpu"} 41.868
+raspi_thermal{device="gpu"} 41.900

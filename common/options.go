@@ -15,10 +15,8 @@ type RaspiExpOpts struct {
 }
 
 const (
-	RaspiExporterPort    = 9100
-	DefaultRefresh       = 2
-	ThermalZonePath      = "/sys/class/temp/thermal_zone0/temp"
-	DebugThermalZonePath = "debug/temp"
+	RaspiExporterPort = 9100
+	DefaultRefresh    = 2
 )
 
 /*
@@ -55,12 +53,6 @@ func ArgParse() *RaspiExpOpts {
 	// 2. Parse arguments
 	flag.Parse()
 
-	if opts.Debug {
-		opts.ThermalZoneFile = DebugThermalZonePath
-	} else {
-		opts.ThermalZoneFile = ThermalZonePath
-	}
-
 	return &opts
 }
 
@@ -74,4 +66,8 @@ func (opts *RaspiExpOpts) ListenAddr() string {
 
 func (opts *RaspiExpOpts) UpdateVCGenCmd(path string) {
 	opts.VCGenCmdPath = path
+}
+
+func (opts *RaspiExpOpts) UpdateThermalFile(path string) {
+	opts.ThermalZoneFile = path
 }

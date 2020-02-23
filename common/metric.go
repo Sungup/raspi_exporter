@@ -38,7 +38,7 @@ func (metric *Metric) Build() (*Metric, error) {
 		return metric, errors.New("metric name is empty")
 	}
 
-	buffer := &bytes.Buffer{}
+	buffer := bytes.NewBufferString(metric.name)
 
 	if len(metric.attributes) > 0 {
 		buffer.WriteByte('{')
@@ -68,11 +68,11 @@ func (metric *Metric) Build() (*Metric, error) {
 func (metric *Metric) WritePromQL(buffer *bytes.Buffer, value float64) {
 	buffer.Write(metric.buffer)
 
-	buffer.WriteString(strconv.FormatFloat(value, 'f', 3, 32))
+	buffer.WriteString(strconv.FormatFloat(value, 'f', 3, 32) + "\n")
 }
 
 type MetricAgent interface {
-	WriteMetrics(buffer *bytes.Buffer) error
+	WriteMetrics(buffer *bytes.Buffer)
 	NeedDaemon() bool
-	RunDaemon()
+	RunDaemon() error
 }

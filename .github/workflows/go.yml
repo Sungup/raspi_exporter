@@ -2,7 +2,6 @@ name: Go
 on: [push]
 env:
   REPO_NAME: github.com/${{ github.repository }}
-  GOPATH: /home/runner
 jobs:
   build:
     name: Build
@@ -18,12 +17,11 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
 
+    - name: Set environment on build
+      run: |
+        echo ::set-env name=GOPATH::${HOME}/go
+
     - name: Check environvalues
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-        JOB_CONTEXT: ${{ toJson(job) }}
-        RUNNER_CONTEXT: ${{ toJson(runner) }}
-        TEST_GOPATH: ${{ github.workspace/raspi_exporter/g }}
       run: |
         echo mkdir -p ${GOPATH}/src/$(dirname $REPO_NAME)
         echo ln -svf ${{ github.workspace }} ${GOPATH}/src/${REPO_NAME}

@@ -2,14 +2,14 @@ package utils
 
 import (
 	"path"
-	"raspi_exporter/common"
+	"raspi_exporter/internal/common"
 	"runtime"
 )
 
 func DebugDir() string {
 	_, filename, _, _ := runtime.Caller(0)
 
-	return path.Join(path.Dir(path.Dir(filename)), "debug")
+	return path.Join(path.Dir(path.Dir(filename)), "test")
 }
 
 func UpdateDebugPrerequisite(opts *common.RaspiExpOpts) {

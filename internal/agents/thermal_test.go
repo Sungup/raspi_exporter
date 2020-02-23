@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"io/ioutil"
 	"path"
-	"raspi_exporter/common"
-	"raspi_exporter/utils"
+	"raspi_exporter/internal/common"
+	"raspi_exporter/internal/utils"
 	"testing"
 )
 
@@ -30,9 +30,9 @@ func TestLoadCPUThermal(t *testing.T) {
 		t.Error(err)
 	}
 
-	// Check debug value
+	// Check test value
 	if agent.cpuTemp != DebugCPUTemp {
-		t.Errorf("loaded cpu temperature is not same with debug/temp")
+		t.Errorf("loaded cpu temperature is not same with test/temp")
 	}
 }
 
@@ -44,9 +44,9 @@ func TestLoadGPUThermal(t *testing.T) {
 		t.Error(err)
 	}
 
-	// Check debug value
+	// Check test value
 	if agent.gpuTemp != DebugGPUTemp {
-		t.Errorf("loaded gpu temperature is not same with debug/vcgencmd")
+		t.Errorf("loaded gpu temperature is not same with test/vcgencmd")
 	}
 }
 

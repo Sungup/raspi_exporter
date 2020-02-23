@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"io/ioutil"
 	"os/exec"
-	"raspi_exporter/common"
+	"raspi_exporter/internal/common"
 	"regexp"
 	"strconv"
 	"sync"
@@ -39,13 +39,11 @@ func NewThermalAgent(opts *common.RaspiExpOpts) *ThermalAgent {
 	agent.vcGenCmd = opts.VCGenCmdPath
 	agent.thermalZone = opts.ThermalZoneFile
 
-	agent.cpuMetric, _ = common.
-		NewMetric("raspi_thermal").
+	agent.cpuMetric, _ = common.NewMetric("raspi_thermal").
 		AddAttribute("device", "cpu").
 		Build()
 
-	agent.gpuMetric, _ = common.
-		NewMetric("raspi_thermal").
+	agent.gpuMetric, _ = common.NewMetric("raspi_thermal").
 		AddAttribute("device", "gpu").
 		Build()
 

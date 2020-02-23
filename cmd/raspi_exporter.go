@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"fmt"
 	"net/http"
-	"raspi_exporter/agents"
-	"raspi_exporter/common"
+	"raspi_exporter/internal/agents"
+	"raspi_exporter/internal/common"
 )
 
 type MetricHandler struct {

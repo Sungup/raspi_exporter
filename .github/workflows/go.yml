@@ -1,8 +1,10 @@
 name: Go
 on: [push]
 env:
-  REPO_NAME: github.com/${{ GITHUB_REPOSIROTY }}
-  GOPATH: ${{ home }}/go
+  REPO_NAME: github.com/Sungup/raspi_exporter
+  REPO_NAME_TEST: ${{ github.repository }}
+  TEST_WORKSPACE: ${{ github.workspace }}
+  TEST_RUNNER_TEMP: ${{ runner.temp }}
 jobs:
   build:
     name: Build
@@ -22,8 +24,10 @@ jobs:
       run: |
         echo ${REPO_NAME}
         echo ${HOME}
-        echo ${GOPATH}
         echo ${GITHUB_REPOSITORY}
+        echo ${REPO_NAME_TEST}
+        echo ${TEST_WORKSPACE}
+        echo ${TEST_RUNNER_TEMP}
 
     - name: Get dependencies
       run: |

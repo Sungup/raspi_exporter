@@ -1,7 +1,7 @@
 name: Go
 on: [push]
 env:
-  GOPATH: /go
+  REPO_NAME: github.com/${GITHUB_REPOSITORY}
 jobs:
   build:
     name: Build

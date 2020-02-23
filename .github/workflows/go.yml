@@ -1,7 +1,7 @@
 name: Go
 on: [push]
 env:
-  GOPATH: ${{ env.home }}/go
+  GOPATH: /go
 jobs:
   build:
     name: Build

@@ -1,14 +1,14 @@
 name: Go
 on: [push]
 jobs:
-  env:
-    GOPATH: ${{ env.home }}/go
-
   build:
     name: Build
     runs-on: ubuntu-latest
-    steps:
 
+    env:
+      GOPATH: ${{ env.home }}/go
+
+    steps:
     - name: Set up Go 1.13
       uses: actions/setup-go@v1
       with:

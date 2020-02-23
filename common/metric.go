@@ -70,9 +70,3 @@ func (metric *Metric) WritePromQL(buffer *bytes.Buffer, value float64) {
 
 	buffer.WriteString(strconv.FormatFloat(value, 'f', 3, 32) + "\n")
 }
-
-type MetricAgent interface {
-	WriteMetrics(buffer *bytes.Buffer)
-	NeedDaemon() bool
-	RunDaemon() error
-}

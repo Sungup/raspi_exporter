@@ -1,11 +1,11 @@
-package metrics
+package agents
 
 import (
 	"bytes"
 	"io/ioutil"
 	"path"
 	"raspi_exporter/common"
-	"runtime"
+	"raspi_exporter/utils"
 	"testing"
 )
 
@@ -14,20 +14,12 @@ const (
 	DebugGPUTemp = 41.9
 )
 
-func debugDir() string {
-	_, filename, _, _ := runtime.Caller(0)
-
-	return path.Join(path.Dir(path.Dir(filename)), "debug")
-}
-
 func makeTestAgent() *ThermalAgent {
-	debugPath := debugDir()
+	opts := new(common.RaspiExpOpts)
 
-	opts := common.RaspiExpOpts{}
-	opts.UpdateThermalFile(path.Join(debugPath, "temp"))
-	opts.UpdateVCGenCmd(path.Join(debugPath, "vcgencmd"))
+	utils.UpdateDebugPrerequisite(opts)
 
-	return NewThermalAgent(&opts)
+	return NewThermalAgent(opts)
 }
 
 func TestLoadCPUThermal(t *testing.T) {
@@ -64,7 +56,8 @@ func TestWriteMetrics(t *testing.T) {
 	var expect string
 
 	// Load Expected Output
-	if buffer, err := ioutil.ReadFile(path.Join(debugDir(), "thermal_expect.log")); err != nil {
+	expectFile := path.Join(utils.DebugDir(), "thermal_expect.log")
+	if buffer, err := ioutil.ReadFile(expectFile); err != nil {
 		t.Errorf("expect file cannot be loaded")
 		t.FailNow()
 	} else {

@@ -15,7 +15,7 @@ type RaspiExpOpts struct {
 }
 
 const (
-	RaspiExporterPort = 9100
+	RaspiExporterPort = 9110
 	DefaultRefresh    = 2
 )
 

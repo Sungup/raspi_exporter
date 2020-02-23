@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	ThermalZoneFile = "/sys/class/temp/thermal_zone0/temp"
+	ThermalZoneFile = "/sys/class/thermal/thermal_zone0/temp"
 )
 
 func CheckPrerequisite(opts *RaspiExpOpts) error {

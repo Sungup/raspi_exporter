@@ -29,7 +29,6 @@ jobs:
 
     - name: Get dependencies
       run: |
-        cd $GOPATH/src/$REPO_NAME
         go get -v -t -d ./...
         if [ -f Gopkg.toml ]; then
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
@@ -45,5 +44,4 @@ jobs:
 
     - name: Build
       run: |
-        cd $GOPATH/src/$REPO_NAME
         go build -v -race -ldflags "-extldflags '-static'" -o ${GITHUB_WORKSPACE}/raspi_exporter cmd/raspi_exporter.go

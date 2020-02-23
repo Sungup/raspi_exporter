@@ -18,8 +18,8 @@ jobs:
 
     - name: Check environvalues
       env:
-        REPO_NAME: github.com/Sungup/raspi_exporter
-        GOPATH: ${HOME}/go
+        REPO_NAME: github.com/$GITHUB_REPOSITORY
+        GOPATH: $HOME/go
       run: |
         echo ${REPO_NAME}
         echo ${GOPATH}

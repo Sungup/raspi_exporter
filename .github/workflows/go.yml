@@ -17,11 +17,9 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Check environvalues
-      env:
-        REPO_NAME: github.com/$GITHUB_REPOSITORY
-        GOPATH: $HOME/go
       run: |
         echo ${REPO_NAME}
+        echo ${HOME}
         echo ${GOPATH}
         echo ${GITHUB_REPOSITORY}
 

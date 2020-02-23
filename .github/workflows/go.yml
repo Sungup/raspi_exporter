@@ -27,6 +27,9 @@ jobs:
         echo mkdir -p ${GOPATH}/src/$(dirname $REPO_NAME)
         echo ln -svf ${{ github.workspace }} ${GOPATH}/src/${REPO_NAME}
         echo cd $GOPATH/src/$REPO_NAME
+        echo $GITHUB_CONTEXT
+        echo $JOB_CONTEXT
+        echo $RUNNER_CONTEXT
 
     - name: Get dependencies
       run: |

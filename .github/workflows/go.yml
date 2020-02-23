@@ -20,9 +20,9 @@ jobs:
 
     - name: Check environvalues
       run: |
-        echo mkdir -p ${GOPATH}/src/$(dirname $REPO_NAME)
-        echo ln -svf ${{ github.workspace }} ${GOPATH}/src/${REPONAME}
-        echo cd $GOPATH/src/$REPO_NAME
+        mkdir -p ${GOPATH}/src/$(dirname $REPO_NAME)
+        ln -svf ${{ github.workspace }} ${GOPATH}/src/${REPO_NAME}
+        cd $GOPATH/src/$REPO_NAME
 
     - name: Get dependencies
       run: |

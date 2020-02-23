@@ -7,6 +7,7 @@ import (
 	"raspi_exporter/internal/common"
 	"regexp"
 	"strconv"
+	"strings"
 	"sync"
 )
 
@@ -80,7 +81,7 @@ func (agent *ThermalAgent) loadCPUTemp() error {
 		return err
 	}
 
-	if temp, err = strconv.ParseFloat(string(buffer), 32); err != nil {
+	if temp, err = strconv.ParseFloat(strings.TrimSpace(string(buffer)), 32); err != nil {
 		return err
 	}
 

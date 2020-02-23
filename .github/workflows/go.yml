@@ -1,7 +1,7 @@
 name: Go
 on: [push]
 env:
-  REPO_NAME: github.com/${GITHUB_REPOSITORY}
+  REPO_NAME: github.com/${{ github.reporitory }}
 jobs:
   build:
     name: Build

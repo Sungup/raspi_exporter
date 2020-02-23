@@ -17,6 +17,8 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Check environvalues
+      env:
+        GOPATH: ${{ env.HOME }}/go
       run: |
         echo ${REPO_NAME}
         echo ${HOME}

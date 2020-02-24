@@ -26,6 +26,7 @@ jobs:
       run: |
         mkdir -p $(dirname ${GOPATH}/src/${REPO_NAME})
         ln -svf ${{ github.workspace }} ${GOPATH}/src/${REPO_NAME}
+        sudo apt-get install gcc-aarch64-linux-gnu
 
     - name: Get dependencies
       run: |

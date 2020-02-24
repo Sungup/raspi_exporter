@@ -26,6 +26,7 @@ jobs:
       run: |
         mkdir -p $(dirname ${GOPATH}/src/${REPO_NAME})
         ln -svf ${{ github.workspace }} ${GOPATH}/src/${REPO_NAME}
+        sudo apt-get install gcc-aarch64-linux-gnu
 
     - name: Get dependencies
       run: |
@@ -42,6 +43,14 @@ jobs:
         go vet $(go list ./... | grep -v /vendor/)
         go test -race $(go list ./... | grep -v /vendor/)
 
-    - name: Build
+    - name: Build-amd64
       run: |
-        go build -v -race -ldflags "-extldflags '-static'" -o ${GITHUB_WORKSPACE}/build/raspi-exporter raspi_exporter/cmd/raspi_exporter
+        go build -v -ldflags "-extldflags '-static'" -o ${GITHUB_WORKSPACE}/build/amd64/raspi-exporter raspi_exporter/cmd/raspi_exporter
+
+    - name: Build-arm64
+      run: |
+        env GOOS=linux GOARCH=arm64 go build -v -ldflags "-extldflags '-static'" -o build/arm64/raspi-exporter raspi_exporter/cmd/raspi_exporter
+
+    - name: Build-arm64-cgo
+      run: |
+        env GOOS=linux GOARCH=arm64 CGO_ENABLED=1 CC=aarch64-linux-gnu-gcc go build -v -ldflags "-extldflags '-static'" -o build/arm64-race/raspi-exporter raspi_exporter/cmd/raspi_exporter

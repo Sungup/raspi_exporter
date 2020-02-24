@@ -32,7 +32,11 @@ func TestLoadCPUThermal(t *testing.T) {
 
 	// Check test value
 	if agent.cpuTemp != DebugCPUTemp {
-		t.Errorf("loaded cpu temperature is not same with test/temp")
+		t.Errorf(
+			"loaded cpu temperature is not same with test/temp (%f vs %f)",
+			DebugCPUTemp,
+			agent.cpuTemp,
+		)
 	}
 }
 
@@ -46,7 +50,11 @@ func TestLoadGPUThermal(t *testing.T) {
 
 	// Check test value
 	if agent.gpuTemp != DebugGPUTemp {
-		t.Errorf("loaded gpu temperature is not same with test/vcgencmd")
+		t.Errorf(
+			"loaded gpu temperature is not same with test/vcgencmd (%f vs %f)",
+			DebugGPUTemp,
+			agent.gpuTemp,
+		)
 	}
 }
 

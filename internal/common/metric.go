@@ -3,7 +3,7 @@ package common
 import (
 	"bytes"
 	"errors"
-	"strconv"
+	"fmt"
 )
 
 const (
@@ -68,5 +68,5 @@ func (metric *Metric) Build() (*Metric, error) {
 func (metric *Metric) WritePromQL(buffer *bytes.Buffer, value float64) {
 	buffer.Write(metric.buffer)
 
-	buffer.WriteString(strconv.FormatFloat(value, 'f', 3, 32) + "\n")
+	_, _ = fmt.Fprintf(buffer, "%.3f\n", value)
 }

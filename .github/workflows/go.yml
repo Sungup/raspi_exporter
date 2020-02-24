@@ -45,12 +45,12 @@ jobs:
 
     - name: Build-amd64
       run: |
-        go build -v -race -ldflags "-extldflags '-static'" -o ${GITHUB_WORKSPACE}/build/amd64/raspi-exporter raspi_exporter/cmd/raspi_exporter
+        go build -v -ldflags "-extldflags '-static'" -o ${GITHUB_WORKSPACE}/build/amd64/raspi-exporter raspi_exporter/cmd/raspi_exporter
 
     - name: Build-arm64
       run: |
         env GOOS=linux GOARCH=arm64 go build -v -ldflags "-extldflags '-static'" -o build/arm64/raspi-exporter raspi_exporter/cmd/raspi_exporter
 
-    - name: Build-arm64-racebuild
+    - name: Build-arm64-cgo
       run: |
-        env GOOS=linux GOARCH=arm64 CGO_ENABLED=1 CC=aarch64-linux-gnu-gcc go build -v -ldflags "-extldflags '-static'" -race -o build/arm64-race/raspi-exporter raspi_exporter/cmd/raspi_exporter
+        env GOOS=linux GOARCH=arm64 CGO_ENABLED=1 CC=aarch64-linux-gnu-gcc go build -v -ldflags "-extldflags '-static'" -o build/arm64-race/raspi-exporter raspi_exporter/cmd/raspi_exporter

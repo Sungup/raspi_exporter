@@ -5,18 +5,12 @@ import (
 	"io/ioutil"
 	"os/exec"
 	"raspi_exporter/internal/common"
-	"regexp"
 	"strconv"
-	"strings"
 	"sync"
 )
 
 const (
 	VCGenSubCmdGPUTemp = "measure_temp"
-)
-
-var (
-	VCGenCmdRegExp = regexp.MustCompile("[a-zA-Z='\n\r ]")
 )
 
 type ThermalAgent struct {
@@ -56,20 +50,36 @@ func NewThermalAgent(opts *common.RaspiExpOpts) *ThermalAgent {
 	return agent
 }
 
-func command(command string, args ...string) (string, error) {
+func command(command string, args ...string) ([]byte, error) {
 	cmd := exec.Command(command, args...)
 
-	stdout := &bytes.Buffer{}
-	stderr := &bytes.Buffer{}
+	stdout := new(bytes.Buffer)
+	stderr := new(bytes.Buffer)
 
 	cmd.Stdout = stdout
 	cmd.Stderr = stderr
 
 	if err := cmd.Run(); err != nil {
-		return stderr.String(), err
+		return stderr.Bytes(), err
 	} else {
-		return stdout.String(), err
+		return stdout.Bytes(), err
 	}
+}
+
+func extractFloat(in []byte) (float64, error) {
+	buffer := new(bytes.Buffer)
+	buffer.Grow(len(in))
+
+	for i := 0; i < len(in); i++ {
+		if in[i] == '.' || ('0' <= in[i] && in[i] <= '9') {
+			buffer.WriteByte(in[i])
+		} else if buffer.Len() > 0 {
+			break
+		}
+	}
+
+	// Extract 16bit only because Raspi uses very small float value
+	return strconv.ParseFloat(buffer.String(), 16)
 }
 
 func (agent *ThermalAgent) loadCPUTemp() error {
@@ -81,7 +91,7 @@ func (agent *ThermalAgent) loadCPUTemp() error {
 		return err
 	}
 
-	if temp, err = strconv.ParseFloat(strings.TrimSpace(string(buffer)), 32); err != nil {
+	if temp, err = extractFloat(buffer); err != nil {
 		return err
 	}
 
@@ -91,7 +101,7 @@ func (agent *ThermalAgent) loadCPUTemp() error {
 }
 
 func (agent *ThermalAgent) loadGPUTemp() error {
-	var buffer string
+	var buffer []byte
 	var err error
 	var temp float64
 
@@ -99,9 +109,7 @@ func (agent *ThermalAgent) loadGPUTemp() error {
 		return err
 	}
 
-	buffer = VCGenCmdRegExp.ReplaceAllString(buffer, "")
-
-	if temp, err = strconv.ParseFloat(buffer, 16); err != nil {
+	if temp, err = extractFloat(buffer); err != nil {
 		return err
 	}
 
